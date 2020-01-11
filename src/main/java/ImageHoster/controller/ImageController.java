@@ -50,6 +50,7 @@ public class ImageController {
     public String showImage(@PathVariable(name = "imageId") Integer imageId, @PathVariable(name = "title") String title, Model model) throws NullPointerException {
         Image image = imageService.getImage(imageId);
         model.addAttribute("image", image);
+        model.addAttribute("comments", image.getComments());
         try {
             List<Tag> tags = image.getTags();
             if (tags.isEmpty()) {
@@ -115,10 +116,11 @@ public class ImageController {
             model.addAttribute("tags", convertTagsToString(tags));
             return "images/edit";
         } else {
-            String error="Only the owner of the image can edit the image";
+            String error = "Only the owner of the image can edit the image";
             model.addAttribute("editError", error);
             model.addAttribute("image", image);
             model.addAttribute("tags", tags);
+            model.addAttribute("comments", image.getComments());
             return "images/image";
         }
 
@@ -173,10 +175,11 @@ public class ImageController {
             imageService.deleteImage(id);
             return "redirect:/images";
         } else {
-            String error="Only the owner of the image can delete the image";
+            String error = "Only the owner of the image can delete the image";
             model.addAttribute("tags", image.getTags());
             model.addAttribute("image", image);
             model.addAttribute("deleteError", error);
+            model.addAttribute("comments", image.getComments());
             return "images/image";
         }
 
