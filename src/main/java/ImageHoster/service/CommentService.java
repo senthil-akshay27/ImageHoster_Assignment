@@ -14,7 +14,6 @@ public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
 
-
     public void addComment(Comment comment) {
         comment.setCreatedDate(LocalDate.now());
         commentRepository.addComment(comment);
